@@ -41,7 +41,4 @@ public class Customer {
 
     private boolean isTestVersion;
     private String ionosUsername;
-
-    @Column(name = "ionos_password_encrypted", updatable = false)
-    private String ionosPassword;
 }
