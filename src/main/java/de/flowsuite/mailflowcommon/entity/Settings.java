@@ -42,10 +42,6 @@ public class Settings {
     private String smtpHost;
     private Integer imapPort;
     private Integer smtpPort;
-    private String ionosUsername;
-
-    @Column(name = "ionos_password_encrypted")
-    private String ionosPassword;
 
     @PrePersist
     @PreUpdate

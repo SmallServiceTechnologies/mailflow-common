@@ -40,4 +40,8 @@ public class Customer {
     @NotBlank private String registrationToken;
 
     private boolean isTestVersion;
+    private String ionosUsername;
+
+    @Column(name = "ionos_password_encrypted")
+    private String ionosPassword;
 }
