@@ -1,7 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.5'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.4.5' apply false
 }
 
 group = 'de.flowsuite'
@@ -15,6 +14,14 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
 }
 
 dependencies {
