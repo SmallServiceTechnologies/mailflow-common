@@ -38,4 +38,10 @@ public class Customer {
 
     @Column(updatable = false)
     @NotBlank private String registrationToken;
+
+    private boolean isTestVersion;
+    private String ionosUsername;
+
+    @Column(name = "ionos_password_encrypted", updatable = false)
+    private String ionosPassword;
 }
