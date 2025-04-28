@@ -40,5 +40,4 @@ public class Customer {
     @NotBlank private String registrationToken;
 
     private boolean isTestVersion;
-    private String ionosUsername;
 }
