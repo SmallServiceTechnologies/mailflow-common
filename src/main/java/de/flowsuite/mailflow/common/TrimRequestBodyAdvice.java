@@ -1,6 +1,7 @@
 package de.flowsuite.mailflow.common;
 
 import de.flowsuite.mailflow.common.exception.TrimValidationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;

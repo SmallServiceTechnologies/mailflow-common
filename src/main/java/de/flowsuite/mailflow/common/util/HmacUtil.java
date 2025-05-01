@@ -2,10 +2,11 @@ package de.flowsuite.mailflow.common.util;
 
 import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
 
+import java.util.Base64;
+
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
 
 public class HmacUtil {
 

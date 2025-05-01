@@ -1,13 +1,14 @@
 package de.flowsuite.mailflow.common.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import de.flowsuite.mailflow.common.constant.Timeframe;
+
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AnalyticsUtilTest {
 

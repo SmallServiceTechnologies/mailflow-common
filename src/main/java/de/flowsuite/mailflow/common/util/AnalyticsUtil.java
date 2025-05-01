@@ -1,13 +1,14 @@
 package de.flowsuite.mailflow.common.util;
 
+import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
+
 import de.flowsuite.mailflow.common.constant.Timeframe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
 
 public class AnalyticsUtil {
     private static final Logger LOG = LoggerFactory.getLogger(AnalyticsUtil.class);

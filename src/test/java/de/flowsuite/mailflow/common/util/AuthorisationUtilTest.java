@@ -1,15 +1,16 @@
 package de.flowsuite.mailflow.common.util;
 
-import de.flowsuite.mailflow.common.constant.Authorities;
-import de.flowsuite.mailflow.common.exception.IdorException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.security.oauth2.jwt.Jwt;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import de.flowsuite.mailflow.common.constant.Authorities;
+import de.flowsuite.mailflow.common.exception.IdorException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 class AuthorisationUtilTest {
 
