@@ -72,6 +72,12 @@ public class User implements UserDetails {
     protected void onCreate() {
         createdAt = ZonedDateTime.now(BERLIN_ZONE);
         updatedAt = createdAt;
+        if (tokenExpiresAt != null) {
+            tokenExpiresAt = tokenExpiresAt.withZoneSameInstant(BERLIN_ZONE);
+        }
+        if (lastLoginAt != null) {
+            lastLoginAt = lastLoginAt.withZoneSameInstant(BERLIN_ZONE);
+        }
     }
 
     @PreUpdate
