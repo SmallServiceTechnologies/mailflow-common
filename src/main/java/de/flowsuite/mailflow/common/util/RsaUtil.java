@@ -1,6 +1,8 @@
 package de.flowsuite.mailflow.common.util;
 
 import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPrivateKey;
@@ -10,6 +12,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class RsaUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RsaUtil.class);
 
     public static final RSAPublicKey publicKey = loadPublicKey();
     public static final RSAPrivateKey privateKey = loadPrivateKey();
@@ -21,7 +25,8 @@ public class RsaUtil {
 
         String key = System.getenv(envVar);
         if (key == null || key.isBlank()) {
-            throw new MissingEnvVarException(envVar);
+            LOG.warn("{} environment variable not set.", envVar);
+            return null;
         }
 
         try {
