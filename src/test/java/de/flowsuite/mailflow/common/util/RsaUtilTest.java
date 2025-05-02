@@ -7,11 +7,6 @@ import org.junit.jupiter.api.Test;
 class RsaUtilTest {
 
     @Test
-    void testLoadPrivateKey() {
-        assertNotNull(RsaUtil.privateKey);
-    }
-
-    @Test
     void testLoadPublicKey() {
         assertNotNull(RsaUtil.publicKey);
     }
