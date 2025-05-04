@@ -46,6 +46,10 @@ public class TrimRequestBodyAdvice extends RequestBodyAdviceAdapter {
                 field.setAccessible(true);
                 try {
                     String value = (String) field.get(object);
+                    if (value == null) {
+                        LOG.debug("Field {} is null.", field.getName());
+                        continue;
+                    }
                     String trimmedValue = value.trim();
                     if (!trimmedValue.equals(value)) {
                         throw new TrimValidationException(field.getName());
