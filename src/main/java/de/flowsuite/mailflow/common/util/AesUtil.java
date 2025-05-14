@@ -1,6 +1,8 @@
 package de.flowsuite.mailflow.common.util;
 
 import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -12,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AesUtil {
 
+    private static Logger LOG = LoggerFactory.getLogger(AesUtil.class);
     private static final int GCM_TAG_LENGTH = 128;
     private static final int IV_LENGTH = 12;
     private static final String ALGORITHM = "AES/GCM/NoPadding";
@@ -52,6 +55,7 @@ public class AesUtil {
 
             return Base64.getEncoder().encodeToString(ivAndCipherText);
         } catch (Exception e) {
+            LOG.error("Error encrypting text", e);
             throw new RuntimeException(e);
         }
     }
@@ -73,6 +77,7 @@ public class AesUtil {
 
             return new String(plainText);
         } catch (Exception e) {
+            LOG.error("Error decrypting text", e);
             throw new RuntimeException(e);
         }
     }
