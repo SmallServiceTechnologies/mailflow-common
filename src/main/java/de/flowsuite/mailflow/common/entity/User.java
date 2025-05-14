@@ -59,9 +59,9 @@ public class User implements UserDetails {
 
     private String position;
     @Builder.Default @JsonIgnore @NotBlank private String role = Authorities.USER.getAuthority();
-    @JsonIgnore @NotNull private Boolean isAccountLocked;
-    @JsonIgnore @NotNull private Boolean isAccountEnabled;
-    @NotNull private Boolean isSubscribedToNewsletter;
+    @JsonIgnore @NotNull private Boolean accountLocked;
+    @JsonIgnore @NotNull private Boolean accountEnabled;
+    @NotNull private Boolean subscribedToNewsletter;
     @JsonIgnore @NotBlank private String verificationToken;
     @JsonIgnore @NotNull private ZonedDateTime tokenExpiresAt;
     @JsonIgnore private ZonedDateTime lastLoginAt;
@@ -147,12 +147,12 @@ public class User implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return !isAccountLocked;
+        return !accountLocked;
     }
 
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return isAccountEnabled;
+        return accountEnabled;
     }
 }

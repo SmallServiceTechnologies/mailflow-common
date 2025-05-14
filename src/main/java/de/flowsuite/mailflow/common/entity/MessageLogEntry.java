@@ -33,7 +33,7 @@ public class MessageLogEntry {
     @Column(updatable = false)
     @NotNull private Long customerId;
 
-    private boolean isReplied;
+    private boolean replied;
     @NotBlank private String category;
     @NotBlank private String language;
 

@@ -30,7 +30,7 @@ public class ResponseRating {
     @Column(updatable = false)
     @NotNull private Long userId;
 
-    boolean isSatisfied;
+    boolean satisfied;
 
     @Min(0) @Max(5) private int rating;
 
