@@ -25,7 +25,7 @@ public class MessageCategory {
     @NotNull private Long customerId;
 
     @NotBlank private String category;
-    @NotNull private Boolean isReply;
-    @NotNull private Boolean isFunctionCall;
+    @NotNull private Boolean reply;
+    @NotNull private Boolean functionCall;
     @NotBlank private String description;
 }

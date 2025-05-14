@@ -27,9 +27,9 @@ public class Settings {
     @Column(updatable = false)
     @NotNull private Long customerId;
 
-    private boolean isExecutionEnabled;
-    private boolean isAutoReplyEnabled;
-    private boolean isResponseRatingEnabled;
+    private boolean executionEnabled;
+    private boolean autoReplyEnabled;
+    private boolean responseRatingEnabled;
 
     @Min(168) @Max(744) private int crawlFrequencyInHours;
 
