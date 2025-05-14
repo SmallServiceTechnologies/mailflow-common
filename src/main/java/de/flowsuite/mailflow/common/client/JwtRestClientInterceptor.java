@@ -2,6 +2,7 @@ package de.flowsuite.mailflow.common.client;
 
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.SignedJWT;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
