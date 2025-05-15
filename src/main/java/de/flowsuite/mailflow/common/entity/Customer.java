@@ -32,6 +32,7 @@ public class Customer {
 
     @Column(name = "openai_api_key_encrypted", updatable = false)
     @NotBlank private String openaiApiKey;
+
     private String systemPrompt;
     private String messagePrompt;
 
