@@ -9,15 +9,21 @@ import org.springframework.web.client.RestClient;
 class RestClientConfig {
 
     private final String apiBaseUrl;
+    private final String mailboxServiceBaseUrl;
     private final String llmServiceBaseUrl;
+    private final String ragServiceBaseUrl;
     private final JwtRestClientInterceptor jwtRestClientInterceptor;
 
     RestClientConfig(
             @Value("${mailflow.api.base-url}") String apiBaseUrl,
+            @Value("${mailflow.mailbox-service.base-url}") String mailboxServiceBaseUrl,
             @Value("${mailflow.llm-service.base-url}") String llmServiceBaseUrl,
+            @Value("${mailflow.rag-service.base-url}") String ragServiceBaseUrl,
             JwtRestClientInterceptor jwtRestClientInterceptor) {
         this.apiBaseUrl = apiBaseUrl;
+        this.mailboxServiceBaseUrl = mailboxServiceBaseUrl;
         this.llmServiceBaseUrl = llmServiceBaseUrl;
+        this.ragServiceBaseUrl = ragServiceBaseUrl;
         this.jwtRestClientInterceptor = jwtRestClientInterceptor;
     }
 
@@ -30,9 +36,25 @@ class RestClientConfig {
     }
 
     @Bean
+    public RestClient mailboxServiceRestClient() {
+        return RestClient.builder()
+                .baseUrl(mailboxServiceBaseUrl)
+                .requestInterceptor(jwtRestClientInterceptor)
+                .build();
+    }
+
+    @Bean
     public RestClient llmServiceRestClient() {
         return RestClient.builder()
                 .baseUrl(llmServiceBaseUrl)
+                .requestInterceptor(jwtRestClientInterceptor)
+                .build();
+    }
+
+    @Bean
+    public RestClient ragServiceRestClient() {
+        return RestClient.builder()
+                .baseUrl(ragServiceBaseUrl)
                 .requestInterceptor(jwtRestClientInterceptor)
                 .build();
     }
