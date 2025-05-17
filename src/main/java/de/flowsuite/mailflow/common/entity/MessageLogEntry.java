@@ -34,6 +34,7 @@ public class MessageLogEntry {
     @NotNull private Long customerId;
 
     private boolean replied;
+    private boolean functionCall;
     @NotBlank private String category;
     @NotBlank private String language;
 
@@ -44,6 +45,10 @@ public class MessageLogEntry {
     @NotNull private ZonedDateTime receivedAt;
     @NotNull private ZonedDateTime processedAt;
     @NotNull private Integer processingTimeInSeconds;
+    @NotBlank private String categorisationLlmUsed;
+    @NotNull private Integer categorisationInputTokens;
+    @NotNull private Integer categorisationOutputTokens;
+    @NotNull private Integer categorisationTotalTokens;
     @NotBlank private String llmUsed;
     @NotNull private Integer inputTokens;
     @NotNull private Integer outputTokens;
