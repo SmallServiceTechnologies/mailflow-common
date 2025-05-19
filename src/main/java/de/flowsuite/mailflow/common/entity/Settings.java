@@ -31,10 +31,6 @@ public class Settings {
     private boolean autoReplyEnabled;
     private boolean responseRatingEnabled;
 
-    @Min(168) @Max(744) private int crawlFrequencyInHours;
-
-    private ZonedDateTime lastCrawlAt;
-    private ZonedDateTime nextCrawlAt;
     @JsonIgnore private String mailboxPasswordHash;
 
     @Column(name = "mailbox_password_encrypted")
@@ -44,15 +40,4 @@ public class Settings {
     private String smtpHost;
     private Integer imapPort;
     private Integer smtpPort;
-
-    @PrePersist
-    @PreUpdate
-    private void setTimestampsToBerlin() {
-        if (lastCrawlAt != null) {
-            lastCrawlAt = lastCrawlAt.withZoneSameInstant(BERLIN_ZONE);
-        }
-        if (nextCrawlAt != null) {
-            nextCrawlAt = nextCrawlAt.withZoneSameInstant(BERLIN_ZONE);
-        }
-    }
 }

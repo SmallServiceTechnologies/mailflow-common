@@ -1,17 +1,24 @@
 package de.flowsuite.mailflow.common.util;
 
+import de.flowsuite.mailflow.common.entity.Settings;
 import de.flowsuite.mailflow.common.exception.InvalidEmailAddressException;
+import de.flowsuite.mailflow.common.exception.InvalidPortsException;
+import de.flowsuite.mailflow.common.exception.InvalidSettingsException;
 import de.flowsuite.mailflow.common.exception.InvalidUrlException;
+import jakarta.validation.Valid;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.time.ZoneId;
 import java.util.Base64;
+import java.util.List;
 
 public class Util {
 
     public static final ZoneId BERLIN_ZONE = ZoneId.of("Europe/Berlin");
+    private static final List<Integer> VALID_IMAP_PORTS = List.of(993);
+    private static final List<Integer> VALID_SMTP_PORTS = List.of(465, 587, 2525);
 
     public static void validateEmailAddress(String emailAddress) {
         if (emailAddress == null
@@ -65,6 +72,22 @@ public class Util {
 
         if (!"https".equalsIgnoreCase(parsedUrl.getProtocol())) {
             throw new InvalidUrlException("Only https URLs are allowed.");
+        }
+    }
+
+    public static void validateMailboxSettings(String imapHost, String smtpHost, Integer imapPort, Integer smtpPort) {
+        if (imapHost == null
+                || smtpHost == null
+                || imapPort == null
+                || smtpPort == null
+                || imapHost.isBlank()
+                || smtpHost.isBlank()) {
+            throw new InvalidSettingsException();
+        }
+
+        if (!VALID_IMAP_PORTS.contains(imapPort)
+                || !VALID_SMTP_PORTS.contains(smtpPort)) {
+            throw new InvalidPortsException(VALID_IMAP_PORTS.toString(), VALID_SMTP_PORTS.toString());
         }
     }
 

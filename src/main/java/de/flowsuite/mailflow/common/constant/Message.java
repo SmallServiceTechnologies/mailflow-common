@@ -25,14 +25,14 @@ public record Message(@NotBlank String message) {
     public static final String RESPONSE_RATING_EXPIRED_MSG =
             "This message is no longer eligible for rating. Feedback can only be submitted within %s days of the interaction.";
     public static final String DOUBLE_OPT_IN_EMAIL_SUBJECT =
-            "Bitte bestätige deine Registrierung 🤝";
+            "Please confirm your registration 🤝";
     public static final String REGISTRATION_EXPIRED_SUBJECT =
-            "Deine Registrierung ist abgelaufen ⏳";
+            "Your registration has expired ⏳";
     public static final String RESET_PASSWORD_EMAIL_SUBJECT =
-            "Dein Link zum Zurücksetzen deines Passwort 🔐";
+            "Reset your password 🔐";
     public static final String RESET_PASSWORD_EXPIRED_EMAIL_SUBJECT =
-            "Dein Link zum Passwort Zurücksetzen ist abgelaufen ⏳";
+            "Your password reset link has expired ⏳";
     public static final String WELCOME_EMAIL_SUBJECT =
-            "Willkommen bei mailflow – schön, dass du dabei bist! 🥳";
+            "Welcome to mailflow! 🥳";
     // spotless:on
 }

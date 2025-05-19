@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum Authorities {
     ADMIN("ADMIN"),
     USER("USER"),
+    MANAGER("MANAGER"),
     CLIENT("CLIENT"),
     CUSTOMERS_LIST("customers:list"),
     CUSTOMERS_READ("customers:read"),

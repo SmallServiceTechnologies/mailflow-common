@@ -3,13 +3,16 @@ package de.flowsuite.mailflow.common.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.ZonedDateTime;
+
+import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
 
 @Entity
 @Table(name = "customers")
@@ -49,4 +52,25 @@ public class Customer {
 
     @Column(name = "ionos_password_encrypted")
     private String ionosPassword;
+
+    @Min(168) @Max(744) private int crawlFrequencyInHours;
+
+    private ZonedDateTime lastCrawlAt;
+    private ZonedDateTime nextCrawlAt;
+
+    @NotBlank private String defaultImapHost;
+    @NotBlank private String defaultSmtpHost;
+    @NotNull private Integer defaultImapPort;
+    @NotNull private Integer defaultSmtpPort;
+
+    @PrePersist
+    @PreUpdate
+    private void setTimestampsToBerlin() {
+        if (lastCrawlAt != null) {
+            lastCrawlAt = lastCrawlAt.withZoneSameInstant(BERLIN_ZONE);
+        }
+        if (nextCrawlAt != null) {
+            nextCrawlAt = nextCrawlAt.withZoneSameInstant(BERLIN_ZONE);
+        }
+    }
 }
