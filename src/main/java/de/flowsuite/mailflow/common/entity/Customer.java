@@ -1,5 +1,7 @@
 package de.flowsuite.mailflow.common.entity;
 
+import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -11,8 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
-
-import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
 
 @Entity
 @Table(name = "customers")
