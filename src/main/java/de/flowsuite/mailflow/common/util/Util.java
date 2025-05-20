@@ -1,11 +1,9 @@
 package de.flowsuite.mailflow.common.util;
 
-import de.flowsuite.mailflow.common.entity.Settings;
 import de.flowsuite.mailflow.common.exception.InvalidEmailAddressException;
 import de.flowsuite.mailflow.common.exception.InvalidPortsException;
 import de.flowsuite.mailflow.common.exception.InvalidSettingsException;
 import de.flowsuite.mailflow.common.exception.InvalidUrlException;
-import jakarta.validation.Valid;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -75,7 +73,8 @@ public class Util {
         }
     }
 
-    public static void validateMailboxSettings(String imapHost, String smtpHost, Integer imapPort, Integer smtpPort) {
+    public static void validateMailboxSettings(
+            String imapHost, String smtpHost, Integer imapPort, Integer smtpPort) {
         if (imapHost == null
                 || smtpHost == null
                 || imapPort == null
@@ -85,9 +84,9 @@ public class Util {
             throw new InvalidSettingsException();
         }
 
-        if (!VALID_IMAP_PORTS.contains(imapPort)
-                || !VALID_SMTP_PORTS.contains(smtpPort)) {
-            throw new InvalidPortsException(VALID_IMAP_PORTS.toString(), VALID_SMTP_PORTS.toString());
+        if (!VALID_IMAP_PORTS.contains(imapPort) || !VALID_SMTP_PORTS.contains(smtpPort)) {
+            throw new InvalidPortsException(
+                    VALID_IMAP_PORTS.toString(), VALID_SMTP_PORTS.toString());
         }
     }
 
