@@ -53,7 +53,7 @@ public class Customer {
     @Column(name = "ionos_password_encrypted")
     private String ionosPassword;
 
-    @Min(168) @Max(744) private int crawlFrequencyInHours;
+    @Min(1) @Max(14) private int crawlFrequencyInDays;
 
     private ZonedDateTime lastCrawlAt;
     private ZonedDateTime nextCrawlAt;
