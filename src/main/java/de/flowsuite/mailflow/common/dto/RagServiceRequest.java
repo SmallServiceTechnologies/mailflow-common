@@ -2,6 +2,7 @@ package de.flowsuite.mailflow.common.dto;
 
 import de.flowsuite.mailflow.common.entity.Customer;
 import de.flowsuite.mailflow.common.entity.User;
+
 import lombok.Builder;
 
 @Builder

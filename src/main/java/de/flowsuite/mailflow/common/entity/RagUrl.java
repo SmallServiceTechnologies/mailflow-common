@@ -26,4 +26,6 @@ public class RagUrl {
 
     @NotBlank private String url;
     private Boolean lastCrawlSuccessful;
+
+    private String description;
 }
