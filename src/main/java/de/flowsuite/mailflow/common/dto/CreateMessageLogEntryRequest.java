@@ -8,7 +8,8 @@ import java.time.ZonedDateTime;
 public record CreateMessageLogEntryRequest(
         @NotNull Long userId,
         @NotNull Long customerId,
-        boolean isReplied,
+        boolean replied,
+        boolean functionCall,
         @NotBlank String category,
         String language,
         String fromEmailAddress,
