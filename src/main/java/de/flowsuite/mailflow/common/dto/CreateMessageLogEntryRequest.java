@@ -16,7 +16,11 @@ public record CreateMessageLogEntryRequest(
         @NotNull ZonedDateTime receivedAt,
         @NotNull ZonedDateTime processedAt,
         @NotNull Integer processingTimeInSeconds,
-        @NotBlank String llmUsed,
-        @NotNull Integer inputTokens,
-        @NotNull Integer outputTokens,
-        @NotNull Integer totalTokens) {}
+        @NotBlank String categorisationLlmUsed,
+        @NotNull Integer categorisationInputTokens,
+        @NotNull Integer categorisationOutputTokens,
+        @NotNull Integer categorisationTotalTokens,
+        String llmUsed,
+        Integer inputTokens,
+        Integer outputTokens,
+        Integer totalTokens) {}
