@@ -36,7 +36,7 @@ public class MessageLogEntry {
     private boolean replied;
     private boolean functionCall;
     @NotBlank private String category;
-    @NotBlank private String language;
+    private String language;
 
     @Column(name = "from_email_address_encrypted")
     private String fromEmailAddress;
@@ -45,14 +45,14 @@ public class MessageLogEntry {
     @NotNull private ZonedDateTime receivedAt;
     @NotNull private ZonedDateTime processedAt;
     @NotNull private Integer processingTimeInSeconds;
-    @NotBlank private String categorisationLlmUsed;
-    @NotNull private Integer categorisationInputTokens;
-    @NotNull private Integer categorisationOutputTokens;
-    @NotNull private Integer categorisationTotalTokens;
-    @NotBlank private String llmUsed;
-    @NotNull private Integer inputTokens;
-    @NotNull private Integer outputTokens;
-    @NotNull private Integer totalTokens;
+    private String categorisationLlmUsed;
+    private Integer categorisationInputTokens;
+    private Integer categorisationOutputTokens;
+    private Integer categorisationTotalTokens;
+    private String llmUsed;
+    private Integer inputTokens;
+    private Integer outputTokens;
+    private Integer totalTokens;
     @JsonIgnore @NotBlank private String token;
     @JsonIgnore @NotNull private ZonedDateTime tokenExpiresAt;
 
