@@ -9,7 +9,7 @@ class RetryUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(RetryUtil.class);
 
-    private static final int MAX_RETRIES = 3;
+    private static final int MAX_RETRIES = 2;
     private static final long RETRY_DELAY_MS = 1000;
 
     static <T> T retry(Supplier<T> supplier) {
