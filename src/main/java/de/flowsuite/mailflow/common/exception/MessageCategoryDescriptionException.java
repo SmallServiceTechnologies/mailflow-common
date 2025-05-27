@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class MessageCategoryDescriptionException extends RuntimeException {
 
     public MessageCategoryDescriptionException() {
-        super(
-                "Unable to create category: The description must be at least 100 characters long to"
-                        + " provide sufficient detail.");
+        super("The description must be at least 100 characters long to provide sufficient detail.");
     }
 }
