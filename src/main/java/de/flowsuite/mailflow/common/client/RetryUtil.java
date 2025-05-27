@@ -13,23 +13,23 @@ class RetryUtil {
     private static final long RETRY_DELAY_MS = 1000;
 
     static <T> T retry(Supplier<T> supplier) {
-        int attempt = 0;
+        int retry = 0;
         while (true) {
             try {
                 return supplier.get();
             } catch (Exception e) {
-                attempt++;
-                if (attempt >= MAX_RETRIES) {
-                    LOG.error("API request failed after {} attempts", attempt, e);
+                retry++;
+                if (retry > MAX_RETRIES) {
+                    LOG.error("API request failed after {} retries", retry, e);
                     throw new RuntimeException(e);
                 } else {
                     LOG.warn(
-                            "API request failed (attempt {} of {}). Retrying in {} seconds...",
-                            attempt,
+                            "API request failed (retry {} of {}). Retrying in {} seconds...",
+                            retry,
                             MAX_RETRIES,
-                            (float) RETRY_DELAY_MS * attempt / 1000);
+                            (float) RETRY_DELAY_MS * retry / 1000);
                     try {
-                        Thread.sleep(RETRY_DELAY_MS * attempt);
+                        Thread.sleep(RETRY_DELAY_MS * retry);
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                         throw new RuntimeException("Retry interrupted", ie);
