@@ -9,31 +9,14 @@ class RetryUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(RetryUtil.class);
 
-    private static final int MAX_RETRIES = 3;
+    private static final int MAX_RETRIES = 2;
     private static final long RETRY_DELAY_MS = 1000;
 
     static <T> T retry(Supplier<T> supplier) {
         int attempt = 0;
         while (true) {
             try {
-                T result = supplier.get();
-
-                if (result != null) {
-                    return result;
-                }
-
-                attempt++;
-                if (attempt >= MAX_RETRIES) {
-                    LOG.error("API returned null after {} attempts", attempt);
-                    throw new RuntimeException("API returned null");
-                } else {
-                    LOG.warn(
-                            "API returned null (attempt {} of {}). Retrying in {} seconds...",
-                            attempt,
-                            MAX_RETRIES,
-                            (float) RETRY_DELAY_MS * attempt / 1000);
-                    sleep(attempt);
-                }
+                return supplier.get();
             } catch (Exception e) {
                 attempt++;
                 if (attempt >= MAX_RETRIES) {
@@ -45,18 +28,14 @@ class RetryUtil {
                             attempt,
                             MAX_RETRIES,
                             (float) RETRY_DELAY_MS * attempt / 1000);
-                    sleep(attempt);
+                    try {
+                        Thread.sleep(RETRY_DELAY_MS * attempt);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Retry interrupted", ie);
+                    }
                 }
             }
-        }
-    }
-
-    private static void sleep(int attempt) {
-        try {
-            Thread.sleep(RETRY_DELAY_MS * attempt);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Retry interrupted", ie);
         }
     }
 }
