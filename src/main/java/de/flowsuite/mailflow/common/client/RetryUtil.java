@@ -27,7 +27,7 @@ class RetryUtil {
                             "API request failed (retry {} of {}). Retrying in {} seconds...",
                             retry,
                             MAX_RETRIES,
-                            (float) RETRY_DELAY_MS * retry / 1000);
+                            (double) RETRY_DELAY_MS * retry / 1000);
                     try {
                         Thread.sleep(RETRY_DELAY_MS * retry);
                     } catch (InterruptedException ie) {
