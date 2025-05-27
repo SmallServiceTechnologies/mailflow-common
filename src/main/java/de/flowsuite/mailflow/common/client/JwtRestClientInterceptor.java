@@ -51,14 +51,18 @@ class JwtRestClientInterceptor implements ClientHttpRequestInterceptor {
         ClientHttpResponse response = execution.execute(request, body);
 
         if (response.getStatusCode().value() == 401 || response.getStatusCode().value() == 403) {
-            LOG.debug("API returned {}. Fetching new JWT", response.getStatusCode());
+            LOG.debug(
+                    "API returned {}. Fetching new JWT and retrying...", response.getStatusCode());
             jwt = fetchAccessToken();
             request.getHeaders().set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
 
             ClientHttpResponse retryResponse = execution.execute(request, body);
 
-            if (retryResponse.getStatusCode().value() == 401 || retryResponse.getStatusCode().value() == 403) {
-                LOG.error("Retry after fetching new token also failed with {}", retryResponse.getStatusCode());
+            if (retryResponse.getStatusCode().value() == 401
+                    || retryResponse.getStatusCode().value() == 403) {
+                LOG.error(
+                        "Retry after fetching new token also failed with {}",
+                        retryResponse.getStatusCode());
             }
 
             return retryResponse;
