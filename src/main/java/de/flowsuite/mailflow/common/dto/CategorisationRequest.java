@@ -8,4 +8,4 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record LlmServiceRequest(User user, String text, List<MessageCategory> categories) {}
+public record CategorisationRequest(User user, String text, List<MessageCategory> categories) {}
