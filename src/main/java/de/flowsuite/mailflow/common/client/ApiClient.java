@@ -174,7 +174,7 @@ public class ApiClient {
         return RetryUtil.retry(
                 () ->
                         restClient
-                                .put()
+                                .post()
                                 .uri(
                                         POST_MESSAGE_LOG_ENTRY_URI,
                                         request.customerId(),
