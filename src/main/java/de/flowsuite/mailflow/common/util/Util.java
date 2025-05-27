@@ -1,18 +1,26 @@
 package de.flowsuite.mailflow.common.util;
 
+import de.flowsuite.mailflow.common.dto.ThreadMessage;
 import de.flowsuite.mailflow.common.exception.InvalidEmailAddressException;
 import de.flowsuite.mailflow.common.exception.InvalidPortsException;
 import de.flowsuite.mailflow.common.exception.InvalidSettingsException;
 import de.flowsuite.mailflow.common.exception.InvalidUrlException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 public class Util {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Util.class);
 
     public static final ZoneId BERLIN_ZONE = ZoneId.of("Europe/Berlin");
     private static final List<Integer> VALID_IMAP_PORTS = List.of(993);
@@ -94,5 +102,45 @@ public class Util {
         byte[] randomBytes = new byte[32];
         new SecureRandom().nextBytes(randomBytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
+
+    public static String buildThreadBody(
+            List<ThreadMessage> messageThread, boolean truncate, Integer maxLength) {
+        // Reverse the list so we can iterate from newest to oldest
+        List<ThreadMessage> reversedMessages = new ArrayList<>(messageThread);
+        Collections.reverse(reversedMessages);
+
+        StringBuilder threadBuilder = new StringBuilder();
+        List<String> retainedMessages = new ArrayList<>();
+        int currentLength = 0;
+
+        for (int i = 0; i < reversedMessages.size(); i++) {
+            ThreadMessage message = reversedMessages.get(i);
+            String messageBody = message.toString();
+
+            boolean isMostRecent = (i == 0);
+            int messageLength =
+                    messageBody.length() + (isMostRecent ? "## Most recent message\n".length() : 0);
+
+            LOG.debug("Current thread body length: {}", currentLength + messageLength);
+
+            if (truncate && currentLength + messageLength > maxLength) {
+                LOG.warn("Skipping older messages due to input size limit...");
+                break;
+            }
+
+            String formattedMessage =
+                    isMostRecent ? "## Most recent message\n" + messageBody : messageBody;
+
+            // Prepend the list that it is ordered oldest to newest
+            retainedMessages.add(0, formattedMessage);
+            currentLength += messageLength;
+        }
+
+        for (String msg : retainedMessages) {
+            threadBuilder.append(msg).append("\n\n");
+        }
+
+        return threadBuilder.toString();
     }
 }

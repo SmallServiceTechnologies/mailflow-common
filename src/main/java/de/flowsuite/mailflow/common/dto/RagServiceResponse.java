@@ -5,4 +5,4 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record RagServiceRequest(long userId, long customerId, List<ThreadMessage> messageThread) {}
+public record RagServiceResponse(List<String> relevantSegments, List<String> relevantMetadata) {}

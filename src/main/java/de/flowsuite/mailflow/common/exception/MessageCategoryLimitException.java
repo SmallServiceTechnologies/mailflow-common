@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class MessageCategoryLimitException extends RuntimeException {
 
-    public MessageCategoryLimitException() {
-        super("Unable to create category: Maximum number of message categories reached (10).");
+    public MessageCategoryLimitException(int maxCategoriesPerCustomer) {
+        super(
+                String.format(
+                        "Unable to create category: Maximum number of message categories reached"
+                                + " (%d).",
+                        maxCategoriesPerCustomer));
     }
 }

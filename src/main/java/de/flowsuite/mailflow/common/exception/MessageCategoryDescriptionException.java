@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class MessageCategoryDescriptionException extends RuntimeException {
 
-    public MessageCategoryDescriptionException() {
+    public MessageCategoryDescriptionException(int minLength) {
         super(
-                "Unable to create category: The description must be at least 100 characters long to"
-                        + " provide sufficient detail.");
+                String.format(
+                        "The description must be at least %d characters long to provide sufficient"
+                                + " detail.",
+                        minLength));
     }
 }

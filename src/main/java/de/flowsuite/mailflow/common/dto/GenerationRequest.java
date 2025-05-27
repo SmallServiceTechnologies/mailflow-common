@@ -5,11 +5,12 @@ import de.flowsuite.mailflow.common.entity.User;
 import lombok.Builder;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Builder
 public record GenerationRequest(
         User user,
-        String text,
+        List<ThreadMessage> messageThread,
         String fromEmailAddress,
         String subject,
         ZonedDateTime receivedAt,
