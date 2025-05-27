@@ -6,7 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record CategorisationResponse(
-        MessageCategory category,
+        MessageCategory messageCategory,
         String llmUsed,
         Integer inputTokens,
         Integer outputTokens,
