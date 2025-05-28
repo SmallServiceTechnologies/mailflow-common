@@ -5,4 +5,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record RagServiceResponse(List<String> relevantSegments, List<String> relevantMetadata) {}
+public record RagServiceResponse(
+        List<String> relevantSegments, List<String> relevantMetadata, List<Double> scores) {}
