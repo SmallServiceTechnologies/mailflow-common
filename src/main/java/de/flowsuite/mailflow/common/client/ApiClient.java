@@ -1,6 +1,10 @@
 package de.flowsuite.mailflow.common.client;
 
+import static de.flowsuite.mailflow.common.util.Util.BERLIN_ZONE;
+
+import de.flowsuite.mailflow.common.dto.CategorisationResponse;
 import de.flowsuite.mailflow.common.dto.CreateMessageLogEntryRequest;
+import de.flowsuite.mailflow.common.dto.LlmResponse;
 import de.flowsuite.mailflow.common.entity.*;
 
 import lombok.Getter;
@@ -12,6 +16,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Component
@@ -168,17 +174,58 @@ public class ApiClient {
                 });
     }
 
-    public MessageLogEntry createMessageLogEntry(CreateMessageLogEntryRequest request) {
-        LOG.debug("Creating message log entry for user {}", request.userId());
+    public MessageLogEntry createMessageLogEntry(
+            long customerId,
+            long userId,
+            String fromEmailAddress,
+            String subject,
+            ZonedDateTime receivedAt,
+            CategorisationResponse categorisationResponse,
+            LlmResponse generationResponse,
+            MessageCategory messageCategory) {
+        LOG.debug("Creating message log entry for user {}", userId);
+
+        ZonedDateTime now = ZonedDateTime.now(BERLIN_ZONE);
+        int processingTime = (int) Duration.between(receivedAt, now).getSeconds();
+
+        boolean replied = generationResponse != null;
+
+        String generationModelName =
+                generationResponse != null ? generationResponse.llmUsed() : null;
+        Integer generationInputTokens =
+                generationResponse != null ? generationResponse.inputTokens() : null;
+        Integer generationOutputTokens =
+                generationResponse != null ? generationResponse.outputTokens() : null;
+        Integer generationTotalTokens =
+                generationResponse != null ? generationResponse.totalTokens() : null;
+
+        CreateMessageLogEntryRequest request =
+                new CreateMessageLogEntryRequest(
+                        userId,
+                        customerId,
+                        replied,
+                        messageCategory.getFunctionCall(),
+                        messageCategory.getCategory(),
+                        null, // TODO
+                        fromEmailAddress,
+                        subject,
+                        receivedAt,
+                        now,
+                        processingTime,
+                        categorisationResponse.llmUsed(),
+                        categorisationResponse.inputTokens(),
+                        categorisationResponse.outputTokens(),
+                        categorisationResponse.totalTokens(),
+                        generationModelName,
+                        generationInputTokens,
+                        generationOutputTokens,
+                        generationTotalTokens);
 
         return RetryUtil.retry(
                 () ->
                         restClient
                                 .post()
-                                .uri(
-                                        POST_MESSAGE_LOG_ENTRY_URI,
-                                        request.customerId(),
-                                        request.userId())
+                                .uri(POST_MESSAGE_LOG_ENTRY_URI, customerId, userId)
                                 .body(request)
                                 .retrieve()
                                 .body(MessageLogEntry.class));
