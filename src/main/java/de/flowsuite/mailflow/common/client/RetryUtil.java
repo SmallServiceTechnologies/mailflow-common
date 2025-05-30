@@ -20,7 +20,7 @@ class RetryUtil {
             } catch (Exception e) {
                 retry++;
                 if (retry > MAX_RETRIES) {
-                    LOG.error("API request failed after {} retries", retry, e);
+                    LOG.error("API request failed after {} retries", MAX_RETRIES, e);
                     throw new RuntimeException(e);
                 } else {
                     LOG.warn(
