@@ -33,13 +33,15 @@ public class ApiClient {
     private static final String GET_CUSTOMER_TEST_VERSION_URI =
             "/customers/{customerId}/test-version";
     private static final String LIST_CUSTOMERS_URI = "/customers";
-    private static final String PUT_CUSTOMER_CRAWL_STATUS_URI = "/customers/{customerId}/crawl-status";
+    private static final String PUT_CUSTOMER_CRAWL_STATUS_URI =
+            "/customers/{customerId}/crawl-status";
     private static final String LIST_MESSAGE_CATEGORIES_URI =
             "/customers/{customerId}/message-categories";
     private static final String LIST_BLACKLIST_URI =
             "/customers/{customerId}/users/{userId}/blacklist";
     private static final String LIST_RAG_URLS_URI = "/customers/{customerId}/rag-urls";
-    private static final String PUT_RAG_URL_CRAWL_STATUS_URI = "/customers/{customerId}/rag-urls/{id}/crawl-status";
+    private static final String PUT_RAG_URL_CRAWL_STATUS_URI =
+            "/customers/{customerId}/rag-urls/{id}/crawl-status";
     private static final String POST_MESSAGE_LOG_ENTRY_URI =
             "/customers/{customerId}/users/{userId}/message-log";
 
@@ -160,7 +162,8 @@ public class ApiClient {
                                 .body(new ParameterizedTypeReference<List<RagUrl>>() {}));
     }
 
-    public void updateRagUrlCrawlStatus(long customerId, long ragUrlId, boolean lastCrawlSuccessful) {
+    public void updateRagUrlCrawlStatus(
+            long customerId, long ragUrlId, boolean lastCrawlSuccessful) {
         LOG.debug("Updating rag url {} for customer {}", ragUrlId, customerId);
 
         RetryUtil.retry(
