@@ -1,6 +1,7 @@
 package de.flowsuite.mailflow.common.util;
 
-import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Base64;
 
@@ -10,6 +11,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class HmacUtil {
 
+    private static final Logger LOG = LoggerFactory.getLogger(HmacUtil.class);
+
     private static final SecretKey key = loadHmacKey();
 
     private static SecretKey loadHmacKey() {
@@ -17,7 +20,8 @@ public class HmacUtil {
 
         String b64SecretKey = System.getenv(envVar);
         if (b64SecretKey == null || b64SecretKey.isBlank()) {
-            throw new MissingEnvVarException(envVar);
+            LOG.warn("{} environment variable is missing.", envVar);
+            return null;
         }
 
         byte[] decodedKey = Base64.getDecoder().decode(b64SecretKey);

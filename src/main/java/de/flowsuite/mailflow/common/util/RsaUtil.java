@@ -50,7 +50,8 @@ public class RsaUtil {
 
         String key = System.getenv(envVar);
         if (key == null || key.isBlank()) {
-            throw new MissingEnvVarException(envVar);
+            LOG.warn("{} environment variable is missing.", envVar);
+            return null;
         }
 
         try {
