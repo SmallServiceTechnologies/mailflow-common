@@ -1,7 +1,5 @@
 package de.flowsuite.mailflow.common.util;
 
-import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +48,8 @@ public class RsaUtil {
 
         String key = System.getenv(envVar);
         if (key == null || key.isBlank()) {
-            throw new MissingEnvVarException(envVar);
+            LOG.warn("{} environment variable is missing.", envVar);
+            return null;
         }
 
         try {

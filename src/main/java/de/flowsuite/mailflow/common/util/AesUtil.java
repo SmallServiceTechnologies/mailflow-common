@@ -1,7 +1,5 @@
 package de.flowsuite.mailflow.common.util;
 
-import de.flowsuite.mailflow.common.exception.MissingEnvVarException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AesUtil {
 
-    private static Logger LOG = LoggerFactory.getLogger(AesUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AesUtil.class);
+
     private static final int GCM_TAG_LENGTH = 128;
     private static final int IV_LENGTH = 12;
     private static final String ALGORITHM = "AES/GCM/NoPadding";
@@ -34,7 +33,8 @@ public class AesUtil {
 
         String b64SecretKey = System.getenv(envVar);
         if (b64SecretKey == null || b64SecretKey.isBlank()) {
-            throw new MissingEnvVarException(envVar);
+            LOG.warn("{} environment variable is missing.", envVar);
+            return null;
         }
 
         byte[] decodedKey = Base64.getDecoder().decode(b64SecretKey);
