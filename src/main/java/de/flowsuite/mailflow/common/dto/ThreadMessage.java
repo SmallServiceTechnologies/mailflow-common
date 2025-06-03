@@ -1,8 +1,15 @@
 package de.flowsuite.mailflow.common.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Date;
 
-public record ThreadMessage(int index, String from, Date receivedAt, String subject, String body) {
+public record ThreadMessage(
+        int index,
+        @NotNull String from,
+        Date receivedAt,
+        @NotNull String subject,
+        @NotNull String body) {
 
     public ThreadMessage(int index, String from, Date receivedAt, String subject, String body) {
         this.index = index;

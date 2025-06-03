@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClient;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -54,25 +55,31 @@ public class ApiClient {
     public List<User> listUsers() {
         LOG.debug("Listing users");
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_USERS_URI)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<User>>() {}));
+        List<User> users =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_USERS_URI)
+                                        .retrieve()
+                                        .body(new ParameterizedTypeReference<List<User>>() {}));
+
+        return new ArrayList<>(users); // Ensure mutable
     }
 
     public List<User> listUsersByCustomer(long customerId) {
         LOG.debug("Listing users for customer {}", customerId);
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_USERS_BY_CUSTOMER_URI, customerId)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<User>>() {}));
+        List<User> user =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_USERS_BY_CUSTOMER_URI, customerId)
+                                        .retrieve()
+                                        .body(new ParameterizedTypeReference<List<User>>() {}));
+
+        return new ArrayList<>(user); // Ensure mutable
     }
 
     public Customer getCustomer(long customerId) {
@@ -102,13 +109,16 @@ public class ApiClient {
     public List<Customer> listCustomers() {
         LOG.debug("Listing customers");
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_CUSTOMERS_URI)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<Customer>>() {}));
+        List<Customer> customers =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_CUSTOMERS_URI)
+                                        .retrieve()
+                                        .body(new ParameterizedTypeReference<List<Customer>>() {}));
+
+        return new ArrayList<>(customers); // Ensure mutable
     }
 
     public void updateCustomerCrawlStatus(UpdateCustomerCrawlStatusRequest request) {
@@ -129,37 +139,50 @@ public class ApiClient {
     public List<MessageCategory> listMessageCategories(long customerId) {
         LOG.debug("Listing message categories for customer {}", customerId);
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_MESSAGE_CATEGORIES_URI, customerId)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<MessageCategory>>() {}));
+        List<MessageCategory> messageCategories =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_MESSAGE_CATEGORIES_URI, customerId)
+                                        .retrieve()
+                                        .body(
+                                                new ParameterizedTypeReference<
+                                                        List<MessageCategory>>() {}));
+
+        return new ArrayList<>(messageCategories); // Ensure mutable
     }
 
     public List<BlacklistEntry> listBlacklistEntries(long customerId, long userId) {
         LOG.debug("Fetching blacklist for user {}", userId);
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_BLACKLIST_URI, customerId, userId)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<BlacklistEntry>>() {}));
+        List<BlacklistEntry> blacklist =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_BLACKLIST_URI, customerId, userId)
+                                        .retrieve()
+                                        .body(
+                                                new ParameterizedTypeReference<
+                                                        List<BlacklistEntry>>() {}));
+
+        return new ArrayList<>(blacklist); // Ensure mutable
     }
 
     public List<RagUrl> listRagUrls(long customerId) {
         LOG.debug("Fetching rag urls for customer {}", customerId);
 
-        return RetryUtil.retry(
-                () ->
-                        restClient
-                                .get()
-                                .uri(LIST_RAG_URLS_URI, customerId)
-                                .retrieve()
-                                .body(new ParameterizedTypeReference<List<RagUrl>>() {}));
+        List<RagUrl> ragUrls =
+                RetryUtil.retry(
+                        () ->
+                                restClient
+                                        .get()
+                                        .uri(LIST_RAG_URLS_URI, customerId)
+                                        .retrieve()
+                                        .body(new ParameterizedTypeReference<List<RagUrl>>() {}));
+
+        return new ArrayList<>(ragUrls); // Ensure mutable
     }
 
     public void updateRagUrlCrawlStatus(

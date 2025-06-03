@@ -26,6 +26,7 @@ public class Settings {
     private boolean executionEnabled;
     private boolean autoReplyEnabled;
     private boolean responseRatingEnabled;
+    private boolean moveToManualReviewEnabled;
 
     @JsonIgnore private String mailboxPasswordHash;
 

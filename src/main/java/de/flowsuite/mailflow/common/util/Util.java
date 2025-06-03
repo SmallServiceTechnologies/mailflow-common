@@ -105,7 +105,10 @@ public class Util {
     }
 
     public static String buildThreadBody(
-            List<ThreadMessage> messageThread, boolean truncate, Integer maxLength) {
+            List<ThreadMessage> messageThread,
+            boolean format,
+            boolean truncate,
+            Integer maxLength) {
         // Reverse the list so we can iterate from newest to oldest
         List<ThreadMessage> reversedMessages = new ArrayList<>(messageThread);
         Collections.reverse(reversedMessages);
@@ -116,11 +119,21 @@ public class Util {
 
         for (int i = 0; i < reversedMessages.size(); i++) {
             ThreadMessage message = reversedMessages.get(i);
-            String messageBody = message.toString();
+
+            String text;
+            if (format) {
+                text = message.toString();
+            } else {
+                String subject = message.subject();
+                if (subject != null && !subject.isBlank() && !subject.endsWith(".")) {
+                    subject = subject + ".";
+                }
+                text = subject + " " + message.body();
+            }
 
             boolean isMostRecent = (i == 0);
             int messageLength =
-                    messageBody.length() + (isMostRecent ? "## Most recent message\n".length() : 0);
+                    text.length() + (isMostRecent ? "## Most recent message\n".length() : 0);
 
             LOG.debug("Current thread body length: {}", currentLength + messageLength);
 
@@ -129,8 +142,10 @@ public class Util {
                 break;
             }
 
-            String formattedMessage =
-                    isMostRecent ? "## Most recent message\n" + messageBody : messageBody;
+            String formattedMessage = text;
+            if (format) {
+                formattedMessage = isMostRecent ? "## Most recent message\n" + text : text;
+            }
 
             // Prepend the list that it is ordered oldest to newest
             retainedMessages.add(0, formattedMessage);
