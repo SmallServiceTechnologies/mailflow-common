@@ -53,8 +53,8 @@ public class MessageLogEntry {
     private Integer inputTokens;
     private Integer outputTokens;
     private Integer totalTokens;
-    @JsonIgnore @NotBlank private String token;
-    @JsonIgnore @NotNull private ZonedDateTime tokenExpiresAt;
+    @NotBlank private String token;
+    @NotNull private ZonedDateTime tokenExpiresAt;
 
     @PrePersist
     @PreUpdate
