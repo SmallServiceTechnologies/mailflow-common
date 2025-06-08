@@ -18,14 +18,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionManager.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationException(
             MethodArgumentNotValidException ex, WebRequest request) {
-        LOG.error(ex.getMessage());
+        LOG.error("Exception at [{}]:", request.getDescription(false));
+        logExceptionWithCauses(ex);
+        LOG.debug("Stack trace: ", ex);
 
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         String errorMessageTemplate = "Field '%s' %s";
@@ -46,7 +48,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex, WebRequest request) {
-        LOG.error("Exception at [{}]:", request.getDescription(false), ex);
+        LOG.error("Exception at [{}]:", request.getDescription(false));
+        logExceptionWithCauses(ex);
+        LOG.debug("Stack trace: ", ex);
 
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         if (AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class) != null) {
@@ -61,7 +65,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<Object> handleDatabaseException(
             DataAccessException ex, WebRequest request) {
-        LOG.error(ex.getMessage());
+        LOG.error("Exception at [{}]:", request.getDescription(false));
+        logExceptionWithCauses(ex);
+        LOG.debug("Stack trace: ", ex);
 
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -75,7 +81,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex, WebRequest request) {
-        LOG.error(ex.getMessage());
+        LOG.error("Exception at [{}]:", request.getDescription(false));
+        logExceptionWithCauses(ex);
+        LOG.debug("Stack trace: ", ex);
 
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -96,5 +104,19 @@ public class GlobalExceptionHandler {
         body.put("path", path);
 
         return body;
+    }
+
+    public static void logExceptionWithCauses(Throwable exception) {
+        int level = 0;
+        while (exception != null) {
+            LOG.error(
+                    "{} {}: {} - {}",
+                    level == 0 ? "Exception: " : "Caused by: ",
+                    level,
+                    exception.getClass().getSimpleName(),
+                    exception.getMessage());
+            level++;
+            exception = exception.getCause();
+        }
     }
 }
